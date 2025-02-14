@@ -46,39 +46,24 @@ class SpriteCollideTest(unittest.TestCase):
 
     def test_spritecollide__works_if_collided_cb_is_None(self):
         # Test that sprites collide without collided function.
-        self.assertEqual(
-            sprite.spritecollide(self.s1, self.ag2, dokill=False, collided=None),
-            [self.s2],
-        )
+        self.assertEqual(sprite.spritecollide(self.s1, self.ag2, dokill=False, collided=None), [self.s2])
 
     def test_spritecollide__works_if_collided_cb_not_passed(self):
         # Should also work when collided function isn't passed at all.
-        self.assertEqual(
-            sprite.spritecollide(self.s1, self.ag2, dokill=False), [self.s2]
-        )
+        self.assertEqual(sprite.spritecollide(self.s1, self.ag2, dokill=False), [self.s2])
 
     def test_spritecollide__collided_must_be_a_callable(self):
         # Need to pass a callable.
-        self.assertRaises(
-            TypeError, sprite.spritecollide, self.s1, self.ag2, dokill=False, collided=1
-        )
+        self.assertRaises(TypeError, sprite.spritecollide, self.s1, self.ag2, dokill=False, collided=1)
 
     def test_spritecollide__collided_defaults_to_collide_rect(self):
         # collide_rect should behave the same as default.
-        self.assertEqual(
-            sprite.spritecollide(
-                self.s1, self.ag2, dokill=False, collided=sprite.collide_rect
-            ),
-            [self.s2],
-        )
+        self.assertEqual(sprite.spritecollide(self.s1, self.ag2, dokill=False, collided=sprite.collide_rect), [self.s2])
 
     def test_collide_rect_ratio__ratio_of_one_like_default(self):
         # collide_rect_ratio should behave the same as default at a 1.0 ratio.
         self.assertEqual(
-            sprite.spritecollide(
-                self.s1, self.ag2, dokill=False, collided=sprite.collide_rect_ratio(1.0)
-            ),
-            [self.s2],
+            sprite.spritecollide(self.s1, self.ag2, dokill=False, collided=sprite.collide_rect_ratio(1.0)), [self.s2]
         )
 
     def test_collide_rect_ratio__collides_all_at_ratio_of_twenty(self):
@@ -86,34 +71,20 @@ class SpriteCollideTest(unittest.TestCase):
         collided_func = sprite.collide_rect_ratio(20.0)
         expected_sprites = sorted(self.ag2.sprites(), key=id)
 
-        collided_sprites = sorted(
-            sprite.spritecollide(
-                self.s1, self.ag2, dokill=False, collided=collided_func
-            ),
-            key=id,
-        )
+        collided_sprites = sorted(sprite.spritecollide(self.s1, self.ag2, dokill=False, collided=collided_func), key=id)
 
         self.assertListEqual(collided_sprites, expected_sprites)
 
     def test_collide_circle__no_radius_set(self):
         # collide_circle with no radius set.
         self.assertEqual(
-            sprite.spritecollide(
-                self.s1, self.ag2, dokill=False, collided=sprite.collide_circle
-            ),
-            [self.s2],
+            sprite.spritecollide(self.s1, self.ag2, dokill=False, collided=sprite.collide_circle), [self.s2]
         )
 
     def test_collide_circle_ratio__no_radius_and_ratio_of_one(self):
         # collide_circle_ratio with no radius set, at a 1.0 ratio.
         self.assertEqual(
-            sprite.spritecollide(
-                self.s1,
-                self.ag2,
-                dokill=False,
-                collided=sprite.collide_circle_ratio(1.0),
-            ),
-            [self.s2],
+            sprite.spritecollide(self.s1, self.ag2, dokill=False, collided=sprite.collide_circle_ratio(1.0)), [self.s2]
         )
 
     def test_collide_circle_ratio__no_radius_and_ratio_of_twenty(self):
@@ -121,12 +92,7 @@ class SpriteCollideTest(unittest.TestCase):
         collided_func = sprite.collide_circle_ratio(20.0)
         expected_sprites = sorted(self.ag2.sprites(), key=id)
 
-        collided_sprites = sorted(
-            sprite.spritecollide(
-                self.s1, self.ag2, dokill=False, collided=collided_func
-            ),
-            key=id,
-        )
+        collided_sprites = sorted(sprite.spritecollide(self.s1, self.ag2, dokill=False, collided=collided_func), key=id)
 
         self.assertListEqual(expected_sprites, collided_sprites)
 
@@ -140,10 +106,7 @@ class SpriteCollideTest(unittest.TestCase):
         sprite.spritecollide(self.s1, self.ag2, dokill=False, collided=collided_func)
 
         self.assertEqual(
-            sprite.spritecollide(
-                self.s1, self.ag2, dokill=False, collided=sprite.collide_circle
-            ),
-            [self.s2],
+            sprite.spritecollide(self.s1, self.ag2, dokill=False, collided=sprite.collide_circle), [self.s2]
         )
 
     def test_collide_circle_ratio__no_radius_and_ratio_of_two_twice(self):
@@ -155,18 +118,8 @@ class SpriteCollideTest(unittest.TestCase):
         # Calling collide_circle_ratio will set the radius attribute of the
         # sprites. If an incorrect value is stored then we will not get the
         # same result next time it is called:
-        expected_sprites = sorted(
-            sprite.spritecollide(
-                self.s1, self.ag2, dokill=False, collided=collided_func
-            ),
-            key=id,
-        )
-        collided_sprites = sorted(
-            sprite.spritecollide(
-                self.s1, self.ag2, dokill=False, collided=collided_func
-            ),
-            key=id,
-        )
+        expected_sprites = sorted(sprite.spritecollide(self.s1, self.ag2, dokill=False, collided=collided_func), key=id)
+        collided_sprites = sorted(sprite.spritecollide(self.s1, self.ag2, dokill=False, collided=collided_func), key=id)
 
         self.assertListEqual(expected_sprites, collided_sprites)
 
@@ -178,12 +131,7 @@ class SpriteCollideTest(unittest.TestCase):
         collided_func = sprite.collide_circle
         expected_sprites = sorted(self.ag2.sprites(), key=id)
 
-        collided_sprites = sorted(
-            sprite.spritecollide(
-                self.s1, self.ag2, dokill=False, collided=collided_func
-            ),
-            key=id,
-        )
+        collided_sprites = sorted(sprite.spritecollide(self.s1, self.ag2, dokill=False, collided=collided_func), key=id)
 
         self.assertListEqual(expected_sprites, collided_sprites)
 
@@ -195,12 +143,7 @@ class SpriteCollideTest(unittest.TestCase):
         collided_func = sprite.collide_circle_ratio(0.5)
         expected_sprites = sorted(self.ag2.sprites(), key=id)
 
-        collided_sprites = sorted(
-            sprite.spritecollide(
-                self.s1, self.ag2, dokill=False, collided=collided_func
-            ),
-            key=id,
-        )
+        collided_sprites = sorted(sprite.spritecollide(self.s1, self.ag2, dokill=False, collided=collided_func), key=id)
 
         self.assertListEqual(expected_sprites, collided_sprites)
 
@@ -211,24 +154,14 @@ class SpriteCollideTest(unittest.TestCase):
         self.s3.image.fill((255, 255, 255, 255))
 
         # masks should be autogenerated from image if they don't exist.
-        self.assertEqual(
-            sprite.spritecollide(
-                self.s1, self.ag2, dokill=False, collided=sprite.collide_mask
-            ),
-            [self.s2],
-        )
+        self.assertEqual(sprite.spritecollide(self.s1, self.ag2, dokill=False, collided=sprite.collide_mask), [self.s2])
 
         self.s1.mask = pygame.mask.from_surface(self.s1.image)
         self.s2.mask = pygame.mask.from_surface(self.s2.image)
         self.s3.mask = pygame.mask.from_surface(self.s3.image)
 
         # with set masks.
-        self.assertEqual(
-            sprite.spritecollide(
-                self.s1, self.ag2, dokill=False, collided=sprite.collide_mask
-            ),
-            [self.s2],
-        )
+        self.assertEqual(sprite.spritecollide(self.s1, self.ag2, dokill=False, collided=sprite.collide_mask), [self.s2])
 
     def test_collide_mask__transparent(self):
         # make some sprites that are fully transparent, so they won't collide.
@@ -240,11 +173,7 @@ class SpriteCollideTest(unittest.TestCase):
         self.s2.mask = pygame.mask.from_surface(self.s2.image, 255)
         self.s3.mask = pygame.mask.from_surface(self.s3.image, 255)
 
-        self.assertFalse(
-            sprite.spritecollide(
-                self.s1, self.ag2, dokill=False, collided=sprite.collide_mask
-            )
-        )
+        self.assertFalse(sprite.spritecollide(self.s1, self.ag2, dokill=False, collided=sprite.collide_mask))
 
     def test_spritecollideany__without_collided_callback(self):
         # pygame.sprite.spritecollideany(sprite, group) -> sprite
@@ -299,11 +228,7 @@ class SpriteCollideTest(unittest.TestCase):
 
         # This function is configurable using the mutable default arguments!
         def collided_callback(
-            spr_a,
-            spr_b,
-            arg_dict_a=arg_dict_a,
-            arg_dict_b=arg_dict_b,
-            return_container=return_container,
+            spr_a, spr_b, arg_dict_a=arg_dict_a, arg_dict_b=arg_dict_b, return_container=return_container
         ):
             count = arg_dict_a.get(spr_a, 0)
             arg_dict_a[spr_a] = 1 + count
@@ -394,25 +319,19 @@ class SpriteCollideTest(unittest.TestCase):
 
         # test no kill
         expected_dict = {}
-        crashed = pygame.sprite.groupcollide(
-            self.ag, self.ag2, False, False, collided_callback_false
-        )
+        crashed = pygame.sprite.groupcollide(self.ag, self.ag2, False, False, collided_callback_false)
 
         self.assertDictEqual(expected_dict, crashed)
 
         expected_dict = {self.s1: sorted(self.ag2.sprites(), key=id)}
-        crashed = pygame.sprite.groupcollide(
-            self.ag, self.ag2, False, False, collided_callback_true
-        )
+        crashed = pygame.sprite.groupcollide(self.ag, self.ag2, False, False, collided_callback_true)
         for value in crashed.values():
             value.sort(key=id)
 
         self.assertDictEqual(expected_dict, crashed)
 
         # expected_dict is the same again for this collide
-        crashed = pygame.sprite.groupcollide(
-            self.ag, self.ag2, False, False, collided_callback_true
-        )
+        crashed = pygame.sprite.groupcollide(self.ag, self.ag2, False, False, collided_callback_true)
         for value in crashed.values():
             value.sort(key=id)
 
@@ -420,25 +339,19 @@ class SpriteCollideTest(unittest.TestCase):
 
         # Test dokill2=True (kill colliding sprites in second group).
         expected_dict = {}
-        crashed = pygame.sprite.groupcollide(
-            self.ag, self.ag2, False, True, collided_callback_false
-        )
+        crashed = pygame.sprite.groupcollide(self.ag, self.ag2, False, True, collided_callback_false)
 
         self.assertDictEqual(expected_dict, crashed)
 
         expected_dict = {self.s1: sorted(self.ag2.sprites(), key=id)}
-        crashed = pygame.sprite.groupcollide(
-            self.ag, self.ag2, False, True, collided_callback_true
-        )
+        crashed = pygame.sprite.groupcollide(self.ag, self.ag2, False, True, collided_callback_true)
         for value in crashed.values():
             value.sort(key=id)
 
         self.assertDictEqual(expected_dict, crashed)
 
         expected_dict = {}
-        crashed = pygame.sprite.groupcollide(
-            self.ag, self.ag2, False, True, collided_callback_true
-        )
+        crashed = pygame.sprite.groupcollide(self.ag, self.ag2, False, True, collided_callback_true)
 
         self.assertDictEqual(expected_dict, crashed)
 
@@ -446,23 +359,17 @@ class SpriteCollideTest(unittest.TestCase):
         self.ag.add(self.s2)
         self.ag2.add(self.s3)
         expected_dict = {}
-        crashed = pygame.sprite.groupcollide(
-            self.ag, self.ag2, True, False, collided_callback_false
-        )
+        crashed = pygame.sprite.groupcollide(self.ag, self.ag2, True, False, collided_callback_false)
 
         self.assertDictEqual(expected_dict, crashed)
 
         expected_dict = {self.s1: [self.s3], self.s2: [self.s3]}
-        crashed = pygame.sprite.groupcollide(
-            self.ag, self.ag2, True, False, collided_callback_true
-        )
+        crashed = pygame.sprite.groupcollide(self.ag, self.ag2, True, False, collided_callback_true)
 
         self.assertDictEqual(expected_dict, crashed)
 
         expected_dict = {}
-        crashed = pygame.sprite.groupcollide(
-            self.ag, self.ag2, True, False, collided_callback_true
-        )
+        crashed = pygame.sprite.groupcollide(self.ag, self.ag2, True, False, collided_callback_true)
 
         self.assertDictEqual(expected_dict, crashed)
 
@@ -993,40 +900,7 @@ class LayeredGroupBase:
 
     def test_get_sprites_from_layer(self):
         sprites = {}
-        layers = [
-            1,
-            4,
-            5,
-            6,
-            3,
-            7,
-            8,
-            2,
-            1,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            1,
-            2,
-            3,
-            4,
-            5,
-            6,
-            7,
-            8,
-            9,
-            0,
-            1,
-            6,
-            5,
-            4,
-            3,
-            2,
-        ]
+        layers = [1, 4, 5, 6, 3, 7, 8, 2, 1, 3, 4, 5, 6, 7, 8, 9, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 6, 5, 4, 3, 2]
         for lay in layers:
             spr = self.sprite()
             spr._layer = lay
@@ -1171,9 +1045,7 @@ class LayeredDirtyTypeTest__DirtySprite(LayeredGroupBase, unittest.TestCase):
             blue_sprite.image = image_source
             # The rect is a bit smaller than the source_rect to make sure
             # LayeredDirty.draw() is using the correct dimensions.
-            blue_sprite.rect = pygame.Rect(
-                start_pos, (blue_sprite_source.w - 7, blue_sprite_source.h - 7)
-            )
+            blue_sprite.rect = pygame.Rect(start_pos, (blue_sprite_source.w - 7, blue_sprite_source.h - 7))
             blue_sprite.source_rect = blue_sprite_source
             start_x, start_y = blue_sprite.rect.topleft
             end_x = start_x + blue_sprite.source_rect.w
@@ -1309,9 +1181,7 @@ class SpriteBase:
         self.assertListEqual(groups, expected_groups)
 
     def test_alive(self):
-        self.assertFalse(
-            self.sprite.alive(), "Sprite should not be alive if in no groups"
-        )
+        self.assertFalse(self.sprite.alive(), "Sprite should not be alive if in no groups")
 
         self.sprite.add(self.groups)
 
@@ -1341,6 +1211,17 @@ class SpriteBase:
 
         self.assertListEqual(self.sprite.groups(), [])
 
+    def test_double_add(self):
+        """Ensure that adding the same group twice does not duplicate membership"""
+
+        group = self.groups[0]
+        # Add the group for the first time
+        self.sprite.add(group)
+        initial_count = len(self.sprite.groups())
+        # Add the same group a second time
+        self.sprite.add(group)
+        self.assertEqual(len(self.sprite.groups()), initial_count, "Sprite should not be added twice to the same group")
+
 
 ############################## SPRITE CLASS TESTS ##############################
 
@@ -1348,22 +1229,13 @@ class SpriteBase:
 class SpriteTypeTest(SpriteBase, unittest.TestCase):
     Sprite = sprite.Sprite
 
-    Groups = [
-        sprite.Group,
-        sprite.LayeredUpdates,
-        sprite.RenderUpdates,
-    ]
+    Groups = [sprite.Group, sprite.LayeredUpdates, sprite.RenderUpdates]
 
 
 class DirtySpriteTypeTest(SpriteBase, unittest.TestCase):
     Sprite = sprite.DirtySprite
 
-    Groups = [
-        sprite.Group,
-        sprite.LayeredUpdates,
-        sprite.RenderUpdates,
-        sprite.LayeredDirty,
-    ]
+    Groups = [sprite.Group, sprite.LayeredUpdates, sprite.RenderUpdates, sprite.LayeredDirty]
 
 
 ############################## BUG TESTS #######################################
@@ -1402,6 +1274,23 @@ class SingleGroupBugsTest(unittest.TestCase):
 
 
 ################################################################################
+class NewSpriteTest(unittest.TestCase):
+    def test_dummy_sprite(self):
+        # create a new sprite and a group
+        s = sprite.Sprite()
+        g = sprite.Group()
+
+        # Verify the sprite is not alive until added
+        self.assertFalse(s.alive(), "Sprite should not be alive before being added to a group")
+
+        # Add sprite to group; now it should be alive
+        g.add(s)
+        self.assertTrue(s.alive(), "Sprite should be alive after being added to a group")
+
+        # Kill the sprite and verify it is no longer alive
+        s.kill()
+        self.assertFalse(s.alive(), "Sprite should not be alive after kill")
+
 
 if __name__ == "__main__":
     unittest.main()
